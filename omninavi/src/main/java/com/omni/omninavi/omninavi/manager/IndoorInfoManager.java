@@ -34,7 +34,7 @@ public class IndoorInfoManager {
 
         String url = NetworkManager.DOMAIN_NAME + "locapi/get_building";
 
-        NetworkManager.getInstance().addJsonRequest(context, Request.Method.GET, url, null, OGBuilding[].class, NetworkManager.DEFAULT_TIMEOUT, listener);
+        NetworkManager.getInstance().addJsonRequestToCommonObj(context, Request.Method.GET, url, null, OGBuilding[].class, NetworkManager.DEFAULT_TIMEOUT, listener);
     }
 
     public void getFloors(Context context, String buildingId, NetworkManager.NetworkManagerListener<OGFloors> listener) {
