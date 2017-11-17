@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -136,7 +135,6 @@ public class OGService implements IARegion.Listener,
     public void onLocationChanged(IALocation iaLocation) {
         mLocation = iaLocation.toLocation();
 
-        Log.e("@W@", "mLocation lat : " + mLocation.getLatitude() + ", lng : " + mLocation.getLongitude());
         mOGLocationListener.onLocationChanged(mLocation);
     }
 
@@ -148,7 +146,6 @@ public class OGService implements IARegion.Listener,
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         if (ActivityCompat.checkSelfPermission(mContext, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.e("OmniSDK", "Per");
 
         } else {
             if (mLocationRequest == null) {

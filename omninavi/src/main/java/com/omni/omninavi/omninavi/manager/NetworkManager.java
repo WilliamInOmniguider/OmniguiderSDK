@@ -3,7 +3,6 @@ package com.omni.omninavi.omninavi.manager;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -40,6 +39,7 @@ public class NetworkManager {
 
     public static final String NETWORKMANAGER_TAG = NetworkManager.class.getSimpleName();
     public static final String DOMAIN_NAME = "http://nmp.utobonus.com/";
+//    public static final String DOMAIN_NAME = "https://doit.utobonus.com";
     public static final String API_RESULT_TRUE = "true";
     public static final int DEFAULT_TIMEOUT = 30000;
 
@@ -145,7 +145,6 @@ public class NetworkManager {
         addMacInParams(paramsString);
 
         final String requestUrl = (TextUtils.isEmpty(paramsString)) ? url : url + "?" + paramsString;
-        Log.e("@W@", "requestUrl : " + requestUrl);
         JsonObjectRequest request = new JsonObjectRequest(requestMethod,
                 requestUrl,
                 new Response.Listener<JSONObject>() {
@@ -219,7 +218,6 @@ public class NetworkManager {
         addMacInParams(paramsString);
 
         final String requestUrl = (TextUtils.isEmpty(paramsString)) ? url : url + "?" + paramsString;
-        Log.e("@W@", "requestUrl : " + requestUrl);
         JsonObjectRequest request = new JsonObjectRequest(requestMethod,
                 requestUrl,
                 new Response.Listener<JSONObject>() {
