@@ -18,7 +18,7 @@ public class OGPOI implements Serializable {
     public static final int TYPE_TOILETS = 6;
     public static final int TYPE_DISABLED_TOILETS = 7;
     public static final int TYPE_FIRE_EXTINGUISHER = 8;
-    public static final int TYPE_FIRST_AID_AED = 9;
+    public static final int TYPE_AED = 9;
     public static final int TYPE_RAMP = 10;
     public static final int TYPE_SECURITY_GUARD = 11;
     //    public static final int TYPE_KITCHEN = 12;
@@ -31,6 +31,9 @@ public class OGPOI implements Serializable {
     public static final int TYPE_ESCAPE_SLING = 19;
     public static final int TYPE_MEETING_ROOM = 20;
     public static final int TYPE_INTRODUCE = 21;
+    public static final int TYPE_RESTROOM = 22;
+    public static final int TYPE_POST_OFFICE = 23;
+    public static final int TYPE_ATM = 24;
 
     @SerializedName("id")
     private String id;
@@ -100,86 +103,135 @@ public class OGPOI implements Serializable {
                     poiType = TYPE_STAIR;
                     break;
 
-                case "Entrance":
-                    poiType = TYPE_ENTRANCE;
-                    break;
-
+//                case "Entrance":
+//                    poiType = TYPE_ENTRANCE;
+//                    break;
+//
                 case "Elevator":
                     poiType = TYPE_ELEVATOR;
                     break;
 
-//                case "Room":
-//                    poiType = TYPE_ROOM;
-//                    break;
-
-                case "Office":
-                    poiType = TYPE_OFFICE;
+                case "Restroom":
+                    poiType = TYPE_RESTROOM;
                     break;
 
-                case "Toilets":
-                case "友善廁所":
-                    poiType = TYPE_TOILETS;
-                    break;
-
-                case "Disabled Toilets":
+                case "Restroom or the Disabled":
                     poiType = TYPE_DISABLED_TOILETS;
                     break;
 
-                case "Fire Extinguisher":
-                    poiType = TYPE_FIRE_EXTINGUISHER;
+                case "AED":
+                    poiType = TYPE_AED;
                     break;
 
-                case "First Aid/AED":
-                    poiType = TYPE_FIRST_AID_AED;
+                case "Entrance\\/Exit":
+                    poiType = TYPE_ENTRANCE;
                     break;
 
-                case "Ramp":
-                    poiType = TYPE_RAMP;
+                case "Post Office":
+                    poiType = TYPE_POST_OFFICE;
                     break;
 
-                case "Security/Guard":
-                    poiType = TYPE_SECURITY_GUARD;
+                case "ATM":
+                    poiType = TYPE_ATM;
                     break;
 
-//                case "Kitchen":
-//                    poiType = TYPE_KITCHEN;
-//                    break;
-
-                case "Other":
-                    poiType = TYPE_OTHER;
+                case "Convenience Store":
                     break;
 
-                case "exhibits":
-                    poiType = TYPE_EXHIBIT;
+                case "Division":
                     break;
 
-                case "firehydrant":
+                case "Hydrant":
                     poiType = TYPE_FIRE_HYDRANT;
                     break;
 
-                case "information":
-                    poiType = TYPE_INFORMATION;
+                case "Restaurant":
                     break;
 
-                case "dining":
-                    poiType = TYPE_DINING;
+                case "Bank":
                     break;
 
-                case "emergency_exit":
-                    poiType = TYPE_EMERGENCY_EXIT;
+                case "Escalator":
                     break;
 
-                case "escapesling":
-                    poiType = TYPE_ESCAPE_SLING;
+                case "Information":
                     break;
 
-                case "meetingroom":
-                    poiType = TYPE_MEETING_ROOM;
+                case "Drinking fountains":
                     break;
 
-                case "introduce":
-                    poiType = TYPE_INTRODUCE;
-                    break;
+////                case "Room":
+////                    poiType = TYPE_ROOM;
+////                    break;
+//
+//                case "Office":
+//                    poiType = TYPE_OFFICE;
+//                    break;
+//
+//                case "Toilets":
+//                case "友善廁所":
+//                    poiType = TYPE_TOILETS;
+//                    break;
+//
+//                case "Disabled Toilets":
+//                    poiType = TYPE_DISABLED_TOILETS;
+//                    break;
+//
+//                case "Fire Extinguisher":
+//                    poiType = TYPE_FIRE_EXTINGUISHER;
+//                    break;
+//
+//                case "First Aid/AED":
+//                    poiType = TYPE_AED;
+//                    break;
+//
+//                case "Ramp":
+//                    poiType = TYPE_RAMP;
+//                    break;
+//
+//                case "Security/Guard":
+//                    poiType = TYPE_SECURITY_GUARD;
+//                    break;
+//
+////                case "Kitchen":
+////                    poiType = TYPE_KITCHEN;
+////                    break;
+//
+//                case "Other":
+//                    poiType = TYPE_OTHER;
+//                    break;
+//
+//                case "exhibits":
+//                    poiType = TYPE_EXHIBIT;
+//                    break;
+//
+//                case "firehydrant":
+//                    poiType = TYPE_FIRE_HYDRANT;
+//                    break;
+//
+//                case "information":
+//                    poiType = TYPE_INFORMATION;
+//                    break;
+//
+//                case "dining":
+//                    poiType = TYPE_DINING;
+//                    break;
+//
+//                case "emergency_exit":
+//                    poiType = TYPE_EMERGENCY_EXIT;
+//                    break;
+//
+//                case "escapesling":
+//                    poiType = TYPE_ESCAPE_SLING;
+//                    break;
+//
+//                case "meetingroom":
+//                    poiType = TYPE_MEETING_ROOM;
+//                    break;
+//
+//                case "introduce":
+//                    poiType = TYPE_INTRODUCE;
+//                    break;
             }
         }
 
@@ -301,7 +353,7 @@ public class OGPOI implements Serializable {
 //                resId = isSelected ? R.mipmap.icon_select : R.mipmap.icon_extinguisher;
 //                break;
 //
-//            case OGPOI.TYPE_FIRST_AID_AED:
+//            case OGPOI.TYPE_AED:
 //                resId = isSelected ? R.mipmap.icon_select : R.mipmap.icon_aed;
 //                break;
 //
@@ -369,7 +421,7 @@ public class OGPOI implements Serializable {
     }
 
     public boolean isEmergencyPOI() {
-        return getPOIType() == OGPOI.TYPE_FIRST_AID_AED ||
+        return getPOIType() == OGPOI.TYPE_AED ||
                 getPOIType() == OGPOI.TYPE_FIRE_EXTINGUISHER ||
                 getPOIType() == OGPOI.TYPE_SECURITY_GUARD ||
                 getPOIType() == OGPOI.TYPE_EMERGENCY_EXIT ||

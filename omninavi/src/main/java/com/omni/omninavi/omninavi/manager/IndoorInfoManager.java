@@ -32,7 +32,7 @@ public class IndoorInfoManager {
     public void getBuildings(Context context, NetworkManager.NetworkManagerListener<OGBuilding[]> listener) {
         DialogTools.getInstance().showProgress(context);
 
-        String url = NetworkManager.DOMAIN_NAME + "locapi/get_building";
+        String url = NetworkManager.DOMAIN_NAME + "/locapi/get_building";
 
         NetworkManager.getInstance().addJsonRequestToCommonObj(context, Request.Method.GET, url, null, OGBuilding[].class, NetworkManager.DEFAULT_TIMEOUT, listener);
     }
@@ -40,7 +40,7 @@ public class IndoorInfoManager {
     public void getFloors(Context context, String buildingId, NetworkManager.NetworkManagerListener<OGFloors> listener) {
         DialogTools.getInstance().showProgress(context);
 
-        String url = NetworkManager.DOMAIN_NAME + "locapi/get_floor";
+        String url = NetworkManager.DOMAIN_NAME + "/locapi/get_floor";
         Map<String, String> params = new HashMap<>();
         params.put("b", buildingId);
 
