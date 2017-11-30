@@ -36,6 +36,7 @@ public class OGService implements IARegion.Listener,
 
     public interface LocationListener {
         void onLocationChanged(Location location);
+        void onEnterVenue(String venueId);
         void onEnterFloor(String floorId);
     }
 
@@ -113,6 +114,8 @@ public class OGService implements IARegion.Listener,
             mIsIndoor = false;
         } else if (iaRegion.getType() == IARegion.TYPE_VENUE) {
             mIsIndoor = false;
+
+            mOGLocationListener.onEnterVenue(iaRegion.getId());
         } else if (iaRegion.getType() == IARegion.TYPE_FLOOR_PLAN) {
             mIsIndoor = true;
 
