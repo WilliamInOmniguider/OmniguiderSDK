@@ -138,7 +138,9 @@ public class OGService implements IARegion.Listener,
     public void onLocationChanged(IALocation iaLocation) {
         mLocation = iaLocation.toLocation();
 
-        mOGLocationListener.onLocationChanged(mLocation);
+        if (mIsIndoor) {
+            mOGLocationListener.onLocationChanged(mLocation);
+        }
     }
 
     @Override
@@ -173,6 +175,8 @@ public class OGService implements IARegion.Listener,
 
     @Override
     public void onLocationChanged(Location location) {
-        mOGLocationListener.onLocationChanged(location);
+        if (!mIsIndoor) {
+            mOGLocationListener.onLocationChanged(location);
+        }
     }
 }
