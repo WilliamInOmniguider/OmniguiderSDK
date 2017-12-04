@@ -46,29 +46,29 @@ public class OGFloors implements Serializable {
         this.data = data;
     }
 
-    public List<OGPOI> getAllFloorsPOIs() {
-        if (mAllFloorsShopsList == null) {
-            mAllFloorsShopsList = new ArrayList<>();
-        }
-        mAllFloorsShopsList.clear();
-        for (OGFloor floor : data) {
-            if (!mAllFloorsShopsList.contains(floor.getShouldShowPOIList())) {
-                mAllFloorsShopsList.addAll(floor.getShouldShowPOIList());
-            }
-        }
-        return mAllFloorsShopsList;
-    }
-
-    public List<OGPOI> getPOIsByFloorPlanId(String floorPlanId) {
-        List<OGPOI> list = new ArrayList<>();
-        for (OGFloor floor : data) {
-            if (!TextUtils.isEmpty(floor.getFloorPlanId()) && floor.getFloorPlanId().equals(floorPlanId)) {
-                list = floor.getShouldShowPOIList();
-                break;
-            }
-        }
-        return list;
-    }
+//    public List<OGPOI> getAllFloorsPOIs() {
+//        if (mAllFloorsShopsList == null) {
+//            mAllFloorsShopsList = new ArrayList<>();
+//        }
+//        mAllFloorsShopsList.clear();
+//        for (OGFloor floor : data) {
+//            if (!mAllFloorsShopsList.contains(floor.getShouldShowPOIList())) {
+//                mAllFloorsShopsList.addAll(floor.getShouldShowPOIList());
+//            }
+//        }
+//        return mAllFloorsShopsList;
+//    }
+//
+//    public List<OGPOI> getPOIsByFloorPlanId(String floorPlanId) {
+//        List<OGPOI> list = new ArrayList<>();
+//        for (OGFloor floor : data) {
+//            if (!TextUtils.isEmpty(floor.getFloorPlanId()) && floor.getFloorPlanId().equals(floorPlanId)) {
+//                list = floor.getShouldShowPOIList();
+//                break;
+//            }
+//        }
+//        return list;
+//    }
 
     public OGFloor getGroundFloor() {
         OGFloor floor = null;
