@@ -41,8 +41,7 @@ public class OGPOI implements Serializable {
     @SerializedName("type_zh")
     private String typeZh;
     @SerializedName("icon")
-    private OGPOIIcon ogPoiIcon;
-
+    private OGPOIIcon[] ogPoiIcons;
     @SerializedName("lat")
     private double latitude;
     @SerializedName("lng")
@@ -206,6 +205,30 @@ public class OGPOI implements Serializable {
 
     public void setTypeZh(String typeZh) {
         this.typeZh = typeZh;
+    }
+
+    public OGPOIIcon[] getOgPoiIcons() {
+        return ogPoiIcons;
+    }
+
+    public void setOgPoiIcons(OGPOIIcon[] ogPoiIcons) {
+        this.ogPoiIcons = ogPoiIcons;
+    }
+
+    public boolean isOffice() {
+        return isOffice;
+    }
+
+    public void setOffice(boolean office) {
+        isOffice = office;
+    }
+
+    public OGOffice[] getOgOffices() {
+        return ogOffices;
+    }
+
+    public void setOgOffices(OGOffice[] ogOffices) {
+        this.ogOffices = ogOffices;
     }
 
     public int getPOIIconRes(boolean isSelected) {
