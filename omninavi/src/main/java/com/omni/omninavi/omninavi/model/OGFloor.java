@@ -154,22 +154,22 @@ public class OGFloor implements Serializable {
         this.floorPlanId = floorPlanId;
     }
 
-    public List<OGPOI> getShouldShowPOIList() {
-        if (mAllShopsList == null) {
-            mAllShopsList = new ArrayList<>();
-        }
-        for (OGPOI poi : pois) {
-            int poiType = poi.getPOIType();
-            if ((poiType == OGPOI.TYPE_OTHER ||
-                    poiType == OGPOI.TYPE_OFFICE ||
-                    poiType == OGPOI.TYPE_TOILETS ||
-                    poiType == OGPOI.TYPE_ELEVATOR ||
-                    poiType == OGPOI.TYPE_ENTRANCE ||
-                    poiType == OGPOI.TYPE_STAIR) &&
-                    !mAllShopsList.contains(poi)) {
-                mAllShopsList.add(poi);
-            }
-        }
-        return mAllShopsList;
-    }
+//    public List<OGPOI> getShouldShowPOIList() {
+//        if (mAllShopsList == null) {
+//            mAllShopsList = new ArrayList<>();
+//        }
+//        for (OGPOI poi : pois) {
+//            int poiType = poi.getPOIType();
+//            if ((poiType == OGPOI.TYPE_OTHER ||
+//                    poiType == OGPOI.TYPE_OFFICE ||
+//                    poiType == OGPOI.TYPE_TOILETS ||
+//                    poiType == OGPOI.TYPE_ELEVATOR ||
+//                    poiType == OGPOI.TYPE_ENTRANCE ||
+//                    poiType == OGPOI.TYPE_STAIR) &&
+//                    !mAllShopsList.contains(poi)) {
+//                mAllShopsList.add(poi);
+//            }
+//        }
+//        return mAllShopsList;
+//    }
 }
