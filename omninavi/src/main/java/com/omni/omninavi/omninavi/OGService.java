@@ -35,7 +35,7 @@ public class OGService implements IARegion.Listener,
     public static final int MARKER_Z_INDEX = 150;
 
     public interface LocationListener {
-        void onLocationChanged(Location location);
+        void onLocationChanged(Location location, boolean isIndoor);
         void onEnterVenue(String venueId);
         void onEnterFloor(String floorId);
     }
@@ -139,7 +139,7 @@ public class OGService implements IARegion.Listener,
         mLocation = iaLocation.toLocation();
 
         if (mIsIndoor) {
-            mOGLocationListener.onLocationChanged(mLocation);
+            mOGLocationListener.onLocationChanged(mLocation, mIsIndoor);
         }
     }
 
@@ -176,7 +176,7 @@ public class OGService implements IARegion.Listener,
     @Override
     public void onLocationChanged(Location location) {
         if (!mIsIndoor) {
-            mOGLocationListener.onLocationChanged(location);
+            mOGLocationListener.onLocationChanged(location, mIsIndoor);
         }
     }
 }
