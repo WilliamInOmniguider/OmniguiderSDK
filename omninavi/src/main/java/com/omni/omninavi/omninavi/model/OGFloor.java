@@ -138,8 +138,8 @@ public class OGFloor implements Serializable {
         this.pois = pois;
     }
 
-    public String getIsMap() {
-        return isMap;
+    public boolean getIsMap() {
+        return isMap.equals("Y");
     }
 
     public void setIsMap(String isMap) {

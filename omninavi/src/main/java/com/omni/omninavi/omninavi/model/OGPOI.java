@@ -183,16 +183,16 @@ public class OGPOI implements Serializable {
         this.longitude = longitude;
     }
 
-    public String getIsEntrance() {
-        return isEntrance;
+    public boolean getIsEntrance() {
+        return isEntrance.equals("Y");
     }
 
     public void setIsEntrance(String isEntrance) {
         this.isEntrance = isEntrance;
     }
 
-    public String getIsDoor() {
-        return isDoor;
+    public boolean getIsDoor() {
+        return isDoor.equals("Y");
     }
 
     public void setIsDoor(String isDoor) {
