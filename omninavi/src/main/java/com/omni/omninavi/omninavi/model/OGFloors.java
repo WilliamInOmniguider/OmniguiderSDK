@@ -73,7 +73,7 @@ public class OGFloors implements Serializable {
     public OGFloor getGroundFloor() {
         OGFloor floor = null;
         for (OGFloor f : data) {
-            if (f.getIsMap().equalsIgnoreCase("Y")) {
+            if (f.getIsMap()) {
                 floor = f;
                 break;
             }
