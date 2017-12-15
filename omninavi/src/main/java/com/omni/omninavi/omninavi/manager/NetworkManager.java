@@ -2,7 +2,9 @@ package com.omni.omninavi.omninavi.manager;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -12,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.omni.omninavi.R;
@@ -41,6 +44,7 @@ public class NetworkManager {
 //    public static final String DOMAIN_NAME = "http://nmp.utobonus.com/";
     public static final String DOMAIN_NAME = "https://doit.utobonus.com/";
     public static final String API_RESULT_TRUE = "true";
+    public static final String ERROR_MESSAGE_API_TIME_OUT = "Call API timeout";
     public static final int DEFAULT_TIMEOUT = 30000;
 
     private static NetworkManager mNetworkManager;
@@ -79,6 +83,10 @@ public class NetworkManager {
             mGson = new Gson();
         }
         return mGson;
+    }
+
+    public String getDeviceId(Context context) {
+        return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
     }
 
     public <T> void addToRequestQueue(Request<T> req, String tag, Context context) {
@@ -258,6 +266,68 @@ public class NetworkManager {
         request.setRetryPolicy(new DefaultRetryPolicy(
                 timeoutMs,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        addToRequestQueue(request, context.getClass().getSimpleName(), context);
+    }
+
+    public <T> void addPostStringRequest(final Context context,
+                                         final String url,
+                                         final Map<String, String> params,
+                                         final Class<T> responseClass,
+                                         int timeoutMs,
+                                         final NetworkManagerListener<T> listener) {
+        if (!isNetworkAvailable(context)) {
+            if (!url.contains("send_user_location")) {
+                DialogTools.getInstance().dismissProgress(context);
+                DialogTools.getInstance().showNoNetworkMessage(context);
+            }
+            return;
+        }
+
+        StringRequest request = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+//                        Log.e("@W@", "url : " + url + ", response : " + response);
+                        T object = getGson().fromJson(response, responseClass);
+                        listener.onSucceed(object);
+
+                        DialogTools.getInstance().dismissProgress(context);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error.networkResponse != null) {
+                            Log.e("NetworkManager", "Error NetworkResponse statusCode === " + error.networkResponse.statusCode);
+                        } else {
+                            if (error.getClass().equals(TimeoutError.class)) {
+                                Log.e("NetworkManager", "*** Error NetworkResponse Timeout, timeMs : " + error.getNetworkTimeMs());
+                                error = new VolleyError(ERROR_MESSAGE_API_TIME_OUT);
+                            }
+                        }
+                        listener.onFail(error, (TextUtils.isEmpty(error.getMessage()) && error.getCause() == null && error.networkResponse == null));
+
+                        DialogTools.getInstance().dismissProgress(context);
+                    }
+                }) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                double currentTimestamp = System.currentTimeMillis() / 1000.0f;
+                String mac = getMacStr(currentTimestamp);
+                params.put("timestamp", "" + currentTimestamp);
+                params.put("mac", mac);
+
+//                Log.e("@W@", "params : " + params.toString());
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                timeoutMs,
+                1,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         addToRequestQueue(request, context.getClass().getSimpleName(), context);

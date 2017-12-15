@@ -171,7 +171,7 @@ public class IndoorInfoManager {
         params.put("f", userCurrentFloor);
         params.put("lat", String.valueOf(userLat));
         params.put("lng", String.valueOf(userLng));
-        params.put("type", type);
+        params.put("type", type); // Stair, AED, Entrance/Exit, Hydrant
 
         NetworkManager.getInstance().addJsonRequest(context, Request.Method.GET, url, params, OGNaviRoute.class, TIMEOUT, listener);
     }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.text.TextUtils;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -35,7 +36,15 @@ public class OGService implements IARegion.Listener,
     public static final int MARKER_Z_INDEX = 150;
 
     public interface LocationListener {
-        void onLocationChanged(Location location, boolean isIndoor, float certainty);
+//        void onLocationChanged(Location location,
+//                               String venueId,
+//                               String floorId,
+//                               boolean haveToFetch,
+//                               boolean isIndoor,
+//                               float certainty);
+        void onLocationChanged(Location location,
+                               boolean isIndoor,
+                               float certainty);
         void onEnterVenue(String venueId);
         void onEnterFloor(String floorId);
     }
@@ -44,6 +53,9 @@ public class OGService implements IARegion.Listener,
     private IALocationManager mIALocationManager;
     private IAResourceManager mIAResourceManager;
     private boolean mIsIndoor = false;
+    private String mCurrentVenueId;
+    private String mCurrentFloorId;
+    private String mPreviousFloorId;
     private Location mLocation;
     private LocationListener mOGLocationListener;
     private LocationRequest mLocationRequest;
@@ -115,10 +127,12 @@ public class OGService implements IARegion.Listener,
         } else if (iaRegion.getType() == IARegion.TYPE_VENUE) {
             mIsIndoor = false;
 
+//            mCurrentVenueId = iaRegion.getId();
             mOGLocationListener.onEnterVenue(iaRegion.getId());
         } else if (iaRegion.getType() == IARegion.TYPE_FLOOR_PLAN) {
             mIsIndoor = true;
 
+//            mCurrentFloorId = iaRegion.getId();
             mOGLocationListener.onEnterFloor(iaRegion.getId());
         }
     }
@@ -128,8 +142,10 @@ public class OGService implements IARegion.Listener,
         if (iaRegion.getType() == IARegion.TYPE_UNKNOWN) {
             mIsIndoor = false;
         } else if (iaRegion.getType() == IARegion.TYPE_VENUE) {
+            mCurrentVenueId = "";
             mIsIndoor = false;
         } else if (iaRegion.getType() == IARegion.TYPE_FLOOR_PLAN) {
+            mCurrentFloorId = "";
             mIsIndoor = false;
         }
     }
@@ -139,7 +155,24 @@ public class OGService implements IARegion.Listener,
         mLocation = iaLocation.toLocation();
 
         if (mIsIndoor) {
-            mOGLocationListener.onLocationChanged(mLocation, mIsIndoor, iaLocation.getFloorCertainty());
+            boolean haveToFetch = false;
+            if (TextUtils.isEmpty(mPreviousFloorId) ||
+                    (!TextUtils.isEmpty(mPreviousFloorId)) && !mCurrentFloorId.equals(mPreviousFloorId)) {
+                haveToFetch = true;
+
+                mPreviousFloorId = mCurrentFloorId;
+            }
+
+            mOGLocationListener.onLocationChanged(mLocation,
+                    mIsIndoor,
+                    iaLocation.getFloorCertainty());
+
+//            mOGLocationListener.onLocationChanged(mLocation,
+//                    mCurrentVenueId,
+//                    mCurrentFloorId,
+//                    haveToFetch,
+//                    mIsIndoor,
+//                    iaLocation.getFloorCertainty());
         }
     }
 
@@ -176,7 +209,16 @@ public class OGService implements IARegion.Listener,
     @Override
     public void onLocationChanged(Location location) {
         if (!mIsIndoor) {
-            mOGLocationListener.onLocationChanged(location, mIsIndoor, 1);
+            mOGLocationListener.onLocationChanged(location,
+                    mIsIndoor,
+                    1);
+
+//            mOGLocationListener.onLocationChanged(location,
+//                    "",
+//                    "",
+//                    false,
+//                    mIsIndoor,
+//                    1);
         }
     }
 }
