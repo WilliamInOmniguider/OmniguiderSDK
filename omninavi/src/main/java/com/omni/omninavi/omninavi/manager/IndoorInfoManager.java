@@ -1,6 +1,7 @@
 package com.omni.omninavi.omninavi.manager;
 
 import android.content.Context;
+import android.provider.Settings;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
@@ -8,6 +9,8 @@ import com.omni.omninavi.omninavi.model.OGBuilding;
 import com.omni.omninavi.omninavi.model.OGFloors;
 import com.omni.omninavi.omninavi.model.OGNaviRoute;
 import com.omni.omninavi.omninavi.model.OGNaviRoutePOI;
+import com.omni.omninavi.omninavi.model.SendUserLocationResponse;
+import com.omni.omninavi.omninavi.model.UserCurrentLocation;
 import com.omni.omninavi.omninavi.model.google_navigation.GoogleNavigationRoute;
 import com.omni.omninavi.omninavi.tool.DialogTools;
 
@@ -34,6 +37,20 @@ public class IndoorInfoManager {
 
     private IndoorInfoManager() {
 
+    }
+
+    public void sendUserLocation(Context context, List<UserCurrentLocation> list, NetworkManager.NetworkManagerListener<SendUserLocationResponse> listener) {
+//        DialogTools.getInstance().showProgress(context);
+
+        String jsonStr = NetworkManager.getInstance().getGson().toJson(list);
+
+        String url = NetworkManager.DOMAIN_NAME + "api/send_user_location";
+        Map<String, String> params = new HashMap<>();
+        params.put("device_id", Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID));
+        params.put("jsondata", jsonStr);
+
+//        NetworkManager.getInstance().addJsonRequest(context, Request.Method.GET, url, params, SendUserLocationResponse.class, TIMEOUT, listener);
+        NetworkManager.getInstance().addPostStringRequest(context, url, params, SendUserLocationResponse.class, TIMEOUT, listener);
     }
 
     public void getBuildings(Context context, NetworkManager.NetworkManagerListener<OGBuilding[]> listener) {
