@@ -108,7 +108,7 @@ public class NetworkManager {
 
     private String getMacStr(double currentTimestamp) {
         try {
-            return AeSimpleSHA1.SHA1("nmpapp://" + currentTimestamp);
+            return AeSimpleSHA1.SHA1("doitapp://" + currentTimestamp);
         } catch (NoSuchAlgorithmException e) {
             return "";
         } catch (UnsupportedEncodingException e) {
