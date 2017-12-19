@@ -1,7 +1,6 @@
 package com.omni.omninavi.omninavi.manager;
 
 import android.content.Context;
-import android.provider.Settings;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
@@ -39,14 +38,17 @@ public class IndoorInfoManager {
 
     }
 
-    public void sendUserLocation(Context context, List<UserCurrentLocation> list, NetworkManager.NetworkManagerListener<SendUserLocationResponse> listener) {
+    public void sendUserLocation(Context context,
+                                 List<UserCurrentLocation> list,
+                                 String deviceId,
+                                 NetworkManager.NetworkManagerListener<SendUserLocationResponse> listener) {
 //        DialogTools.getInstance().showProgress(context);
 
         String jsonStr = NetworkManager.getInstance().getGson().toJson(list);
 
         String url = NetworkManager.DOMAIN_NAME + "api/send_user_location";
         Map<String, String> params = new HashMap<>();
-        params.put("device_id", Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID));
+        params.put("device_id", deviceId);
         params.put("jsondata", jsonStr);
 
 //        NetworkManager.getInstance().addJsonRequest(context, Request.Method.GET, url, params, SendUserLocationResponse.class, TIMEOUT, listener);
