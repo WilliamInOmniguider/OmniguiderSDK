@@ -23,6 +23,19 @@ public class GroupInfoManager {
 
     private final int TIMEOUT = 15000;
 
+    private static GroupInfoManager sGroupInfoManager;
+
+    public static GroupInfoManager create() {
+        if (sGroupInfoManager == null) {
+            sGroupInfoManager = new GroupInfoManager();
+        }
+        return sGroupInfoManager;
+    }
+
+    private GroupInfoManager() {
+
+    }
+
     public void createGroup(Context context, String title, String name, String hour, @Nullable String loginToken,
                             NetworkManager.NetworkManagerListener<CreateGroupResponse> listener) {
 
