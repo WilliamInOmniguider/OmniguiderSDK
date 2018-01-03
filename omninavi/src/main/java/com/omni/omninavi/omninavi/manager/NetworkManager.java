@@ -278,7 +278,7 @@ public class NetworkManager {
                                          int timeoutMs,
                                          final NetworkManagerListener<T> listener) {
         if (!isNetworkAvailable(context)) {
-            if (!url.contains("send_user_location")) {
+            if (!url.contains("send_user_location") && !url.contains("set_beacon")) {
                 DialogTools.getInstance().dismissProgress(context);
                 DialogTools.getInstance().showNoNetworkMessage(context);
             }
